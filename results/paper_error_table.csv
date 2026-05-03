@@ -1,0 +1,11 @@
+model,evaluation_set,num_samples,rmse_1s_formatted,rmse_5s_formatted,rmse_10s_formatted,mae_1s_formatted,mae_5s_formatted,mae_10s_formatted
+CTGNN,all_event_times,70804.0000 ± 0.0000,4.5722 ± 0.3320,3.6366 ± 0.3550,3.1475 ± 0.3857,3.2546 ± 0.1295,2.3195 ± 0.1183,2.0655 ± 0.0704
+CTGNN,deeplob_aligned_times,5476.0000 ± 0.0000,6.0622 ± 0.0962,4.8098 ± 0.0970,3.9865 ± 0.0845,5.0881 ± 0.0845,3.4447 ± 0.0910,2.7626 ± 0.0166
+DeepLOB,deeplob_aligned_times,5476.0000 ± 0.0000,3.9400 ± 0.0378,4.0463 ± 0.0950,3.6862 ± 0.1197,3.7079 ± 0.0513,3.4110 ± 0.1139,2.6816 ± 0.1245
+CTGNN,static_gcn_aligned_times,872.0000 ± 0.0000,6.4002 ± 0.0760,5.2283 ± 0.0810,4.3882 ± 0.0253,5.6347 ± 0.0685,3.9259 ± 0.0911,3.1442 ± 0.0157
+StaticGCN,static_gcn_aligned_times,872.0000 ± 0.0000,3.7376 ± 0.0750,4.2855 ± 0.1830,4.2408 ± 0.2315,3.4725 ± 0.0779,3.7721 ± 0.0752,3.2542 ± 0.2272
+Persistence,continuous_fold_test_times,,5.9691 ± 1.3693,5.4754 ± 2.1742,3.9108 ± 2.1517,5.0792 ± 1.2464,4.6100 ± 2.4278,2.9977 ± 2.3267
+RollingMean,continuous_fold_test_times,,4.3064 ± 0.8239,3.9005 ± 1.0357,3.3475 ± 1.4279,3.7616 ± 0.7426,3.0889 ± 1.1461,2.4725 ± 1.5880
+RidgeClean,continuous_fold_test_times,,\textbf{3.2622 ± 0.1898},\textbf{3.2834 ± 0.6199},2.9439 ± 0.7416,\textbf{2.6936 ± 0.2276},2.3379 ± 0.5868,1.9500 ± 0.6090
+RidgeShuffledY,continuous_fold_test_times,,3.7555 ± 0.3591,3.3469 ± 0.7596,\textbf{2.8988 ± 0.8490},3.0970 ± 0.3502,\textbf{2.2760 ± 0.5649},\textbf{1.8117 ± 0.5635}
+RidgeTimestampPermuted,continuous_fold_test_times,,3.7581 ± 0.3632,3.3418 ± 0.7550,2.9027 ± 0.8542,3.1007 ± 0.3567,2.2831 ± 0.5654,1.8189 ± 0.5666

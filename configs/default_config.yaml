@@ -1,0 +1,215 @@
+experiment:
+  name: ctgnn_binance_btcusdt_default
+  description: >-
+    Default end-to-end experiment manifest for Continuous-Time Graph Networks
+    with marked point-process modeling on reconstructed BTCUSDT LOB data.
+  seed_list: [42, 43, 44]
+  output_dir: outputs/ctgnn_default
+  device: cpu
+  deterministic: true
+
+paths:
+  raw:
+    snapshot: data/raw/binance/BTCUSDT_snapshot.json.gz
+    depth_buffer: data/raw/binance/BTCUSDT_depth_buffer.jsonl.gz
+    depth: data/raw/binance/BTCUSDT_depth.jsonl.gz
+    trades: data/raw/binance/BTCUSDT_aggtrades.jsonl.gz
+  intermediate:
+    reconstructed_state: data/intermediate/reconstructed_state.parquet
+    events: data/processed/events.parquet
+    targets: data/processed/targets.parquet
+    split_manifest: data/processed/split_manifest.parquet
+  logs:
+    eval_dir: outputs/ctgnn_default/eval/ctgnn
+    split_dir: outputs/ctgnn_default/splits
+    baseline_dir: outputs/ctgnn_default/baselines
+    aligned_dir: outputs/ctgnn_default/aligned
+
+runtime:
+  python_bin: python
+  num_workers: 4
+  top_n_levels: 10
+  max_levels_per_side: 5000
+  strict_sequence: true
+  match_window_us: 250000
+  device: cpu
+  max_ram_gb: 64
+  dry_run_shapes: false
+
+reconstruction:
+  exchange: binance_futures_um
+  symbol: BTCUSDT
+  timestamp_unit: microseconds
+  event_schema:
+    include_post_event_top10_state: true
+    columns:
+      - t_us
+      - event_type
+      - side
+      - level
+      - price
+      - size
+      - mid
+      - spread
+  order_book:
+    top_n_levels: 10
+    include_execution_sink: true
+    num_nodes: 21
+    level_indexing: one_based
+  trade_matching:
+    execution_inference: passive_side_trade_alignment
+    match_window_us: 250000
+  microstructure_features:
+    vpin_bucket_volume: 50.0
+    vpin_window_size: 50
+    levels: 10
+    compute_microprice: true
+    compute_queue_imbalance: true
+    compute_mlofi: true
+
+features:
+  top_n_levels: 10
+  event_feature_columns:
+    - signed_event_size
+    - size
+    - rel_price_to_mid_bps
+    - spread_bps
+    - same_level_imbalance
+    - book_imbalance_l1
+    - node_depth_share
+    - visible_bid_depth
+    - visible_ask_depth
+  graph:
+    num_nodes: 21
+    num_levels: 10
+    typed_edges:
+      within_bid_adjacency: 0
+      within_ask_adjacency: 1
+      cross_side_same_distance: 2
+
+targets:
+  horizons_seconds: [1, 5, 10]
+  realized_volatility:
+    use_true_midprice: true
+    transform: log
+    log_eps: 1.0e-8
+  price_move:
+    enabled: false
+    label_column: price_move_label
+    num_classes: 3
+
+model:
+  num_nodes: 21
+  num_levels: 10
+  num_event_types: 3
+  numeric_msg_dim: 9
+  memory_dim: 128
+  time_dim: 64
+  structure_embed_dim: 32
+  structure_dim: 64
+  raw_msg_dim: 64
+  msg_hidden_dim: 128
+  marked_hidden_dim: 256
+  readout_dim: 256
+  readout_heads: 4
+  full_book_dropout: 0.10
+  dropout: 0.10
+  volatility_out_dim: 3
+  price_move_out_dim: 3
+  include_execution_sink: true
+
+training:
+  epochs: 5
+  batch_size: 256
+  chunk_size: 256
+  learning_rate: 1.0e-4
+  weight_decay: 1.0e-5
+  grad_clip_norm: 1.0
+  monte_carlo_samples_k: 10
+  optimizer: AdamW
+  mixed_precision: false
+  truncated_bptt: true
+  normalize_vol_targets: true
+  target_scaler: standard
+  loss_weights:
+    gap_nll: 1.0
+    alpha_event_type: 1.0
+    beta_location: 1.0
+    gamma_volatility: 1.0
+    delta_price_move: 1.0
+  memory_update:
+    update_after_loss_only: false
+    reset_each_epoch: true
+  early_stopping:
+    enabled: true
+    val_fraction: 0.2
+    patience: 2
+    metric: composite
+    min_delta: 1.0e-4
+    lambda_rank: 0.25
+  supervision:
+    replay_all_events: true
+    train_on_spine: false
+    eval_on_spine: false
+    mode: all_events
+    interval_us: 250000
+    every_n: 10
+    include_large_events: true
+    large_event_quantile: 0.95
+  mc_samples:
+    train: 5
+    eval: 10
+    final: 10
+
+splits:
+  scheme: purged_walk_forward
+  embargo_us: 300000000
+  train_window_us: 86400000000
+  test_window_us: 86400000000
+  step_us: 86400000000
+  anchored: false
+  min_train_events: 1000
+  min_test_events: 1000
+
+training_eval:
+  seeds: [42, 43, 44]
+  enable_price_move_head: false
+  metrics:
+    event_modeling:
+      - next_event_nll
+      - next_event_type_accuracy
+      - next_location_accuracy
+    downstream:
+      - log_rv_rmse_1s
+      - log_rv_rmse_5s
+      - log_rv_rmse_10s
+      - log_rv_mae_1s
+      - log_rv_mae_5s
+      - log_rv_mae_10s
+      - log_rv_spearman_1s
+      - log_rv_spearman_5s
+      - log_rv_spearman_10s
+    optional_price_move:
+      - price_move_accuracy
+      - price_move_f1_macro
+
+evaluation:
+  rank_primary_metric: spearman
+  report_rmse_mae: true
+
+baselines:
+  adapter:
+    deeplob_bucket_us: 100000
+    gcn_bucket_us: 1000000
+    deeplob_seq_len: 50
+    use_log_targets: true
+  training:
+    batch_size: 64
+    epochs: 30
+    patience: 5
+    val_fraction: 0.2
+    min_val_samples: 32
+    purge_us: 10000000
+    lr: 1.0e-3
+    weight_decay: 1.0e-5
+    grad_clip_norm: 1.0

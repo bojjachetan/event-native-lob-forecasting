@@ -1,0 +1,53 @@
+# macOS and local editor metadata
+.DS_Store
+.AppleDouble
+.LSOverride
+.vscode/
+.idea/
+
+# Python caches and local environments
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+.venv/
+venv/
+env/
+ENV/
+
+# Numba / compiled cache artifacts
+*.nbc
+*.nbi
+
+# Logs and LaTeX build intermediates
+*.log
+*.aux
+*.out
+*.toc
+*.synctex.gz
+
+# Large/generated experiment artifacts
+/data/
+/outputs/
+/trial_runs/
+/feature_lake/
+/checkpoints/
+/logs/
+/wandb/
+/mlruns/
+
+# Downloaded market data and generated arrays/tables not meant for Git
+*.parquet
+*.csv.gz
+*.jsonl.gz
+*.npy
+*.npz
+*.pt
+*.pth
+*.ckpt
+
+# Local agent/worktree artifacts
+.claude/

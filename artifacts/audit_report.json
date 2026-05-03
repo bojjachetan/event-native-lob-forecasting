@@ -1,0 +1,194 @@
+{
+  "status": "PASS",
+  "warnings": [
+    "No saved node_populated_mask columns found; recomputed mask from bid/ask sizes only."
+  ],
+  "events_targets": {
+    "num_events": 178498,
+    "num_targets": 178498,
+    "time_start_us": 1580515203444000,
+    "time_end_us": 1580517003074000
+  },
+  "splits": {
+    "num_folds": 8,
+    "folds": [
+      {
+        "fold_id": 1,
+        "num_train": 66109,
+        "num_test": 15160
+      },
+      {
+        "fold_id": 2,
+        "num_train": 63812,
+        "num_test": 5988
+      },
+      {
+        "fold_id": 3,
+        "num_train": 64656,
+        "num_test": 12897
+      },
+      {
+        "fold_id": 4,
+        "num_train": 68555,
+        "num_test": 3468
+      },
+      {
+        "fold_id": 5,
+        "num_train": 68250,
+        "num_test": 4800
+      },
+      {
+        "fold_id": 6,
+        "num_train": 67980,
+        "num_test": 13724
+      },
+      {
+        "fold_id": 7,
+        "num_train": 53228,
+        "num_test": 11014
+      },
+      {
+        "fold_id": 8,
+        "num_train": 41073,
+        "num_test": 3753
+      }
+    ]
+  },
+  "targets": {
+    "rv_columns": [
+      "rv_1s",
+      "rv_5s",
+      "rv_10s"
+    ],
+    "target_normalization": {
+      "enabled": false,
+      "scaler_type": null,
+      "status": "disabled",
+      "message": "normalize_vol_targets is disabled for this run; target scaler artifacts are not expected."
+    }
+  },
+  "baselines": {
+    "adapter_manifest": {
+      "num_levels": 10,
+      "deeplob_bucket_us": 100000,
+      "gcn_bucket_us": 1000000,
+      "deeplob_seq_len": 20,
+      "use_log_targets": true,
+      "notes": [
+        "Each discrete sample inherits its target from the exact representative continuous event (last event in bucket).",
+        "Fold assignment is based on the representative event timestamp t_us.",
+        "DeepLOB sequences are built separately within each fold/split, so they never cross purge boundaries.",
+        "Static GCN snapshots use 20 visible nodes only (10 bids + 10 asks); no execution sink node is used."
+      ],
+      "fold_stats": [
+        {
+          "fold_id": 1,
+          "deeplob_train_samples": 4386,
+          "deeplob_test_samples": 923,
+          "gcn_train_samples": 592,
+          "gcn_test_samples": 120,
+          "deeplob_train_first_t_us": 1580515205543000,
+          "deeplob_test_first_t_us": 1580516106123000,
+          "gcn_train_first_t_us": 1580515204442000,
+          "gcn_test_first_t_us": 1580516104420000
+        },
+        {
+          "fold_id": 2,
+          "deeplob_train_samples": 4314,
+          "deeplob_test_samples": 672,
+          "gcn_train_samples": 592,
+          "gcn_test_samples": 117,
+          "deeplob_train_first_t_us": 1580515325526000,
+          "deeplob_test_first_t_us": 1580516225641000,
+          "gcn_train_first_t_us": 1580515324439000,
+          "gcn_test_first_t_us": 1580516224348000
+        },
+        {
+          "fold_id": 3,
+          "deeplob_train_samples": 4374,
+          "deeplob_test_samples": 830,
+          "gcn_train_samples": 591,
+          "gcn_test_samples": 117,
+          "deeplob_train_first_t_us": 1580515446265000,
+          "deeplob_test_first_t_us": 1580516347243000,
+          "gcn_train_first_t_us": 1580515444245000,
+          "gcn_test_first_t_us": 1580516344084000
+        },
+        {
+          "fold_id": 4,
+          "deeplob_train_samples": 4354,
+          "deeplob_test_samples": 502,
+          "gcn_train_samples": 588,
+          "gcn_test_samples": 109,
+          "deeplob_train_first_t_us": 1580515567597000,
+          "deeplob_test_first_t_us": 1580516465734000,
+          "gcn_train_first_t_us": 1580515564278000,
+          "gcn_test_first_t_us": 1580516464385000
+        },
+        {
+          "fold_id": 5,
+          "deeplob_train_samples": 4302,
+          "deeplob_test_samples": 580,
+          "gcn_train_samples": 589,
+          "gcn_test_samples": 113,
+          "deeplob_train_first_t_us": 1580515686035000,
+          "deeplob_test_first_t_us": 1580516587129000,
+          "gcn_train_first_t_us": 1580515684427000,
+          "gcn_test_first_t_us": 1580516584268000
+        },
+        {
+          "fold_id": 6,
+          "deeplob_train_samples": 4292,
+          "deeplob_test_samples": 841,
+          "gcn_train_samples": 590,
+          "gcn_test_samples": 116,
+          "deeplob_train_first_t_us": 1580515805843000,
+          "deeplob_test_first_t_us": 1580516706543000,
+          "gcn_train_first_t_us": 1580515804387000,
+          "gcn_test_first_t_us": 1580516703948000
+        },
+        {
+          "fold_id": 7,
+          "deeplob_train_samples": 4048,
+          "deeplob_test_samples": 787,
+          "gcn_train_samples": 587,
+          "gcn_test_samples": 120,
+          "deeplob_train_first_t_us": 1580515925838000,
+          "deeplob_test_first_t_us": 1580516825524000,
+          "gcn_train_first_t_us": 1580515924442000,
+          "gcn_test_first_t_us": 1580516824438000
+        },
+        {
+          "fold_id": 8,
+          "deeplob_train_samples": 3608,
+          "deeplob_test_samples": 341,
+          "gcn_train_samples": 579,
+          "gcn_test_samples": 60,
+          "deeplob_train_first_t_us": 1580516047066000,
+          "deeplob_test_first_t_us": 1580516946208000,
+          "gcn_train_first_t_us": 1580516043884000,
+          "gcn_test_first_t_us": 1580516944418000
+        }
+      ]
+    },
+    "sample_counts": {
+      "deeplob_test": 5476,
+      "static_gcn_test": 872
+    }
+  },
+  "ridge_audit": {
+    "status": "verified",
+    "summary_path": "trial_runs/tardis_trial_btcusdt_20200201/outputs/baselines/simple/ridge_audit_summary.json",
+    "feature_audit_path": "trial_runs/tardis_trial_btcusdt_20200201/outputs/baselines/simple/ridge_feature_audit.json",
+    "models": [
+      "RidgeClean",
+      "RidgeShuffledY",
+      "RidgeTimestampPermuted"
+    ]
+  },
+  "masks": {
+    "visible_nodes": 20,
+    "sink_node_present": true,
+    "saved_mask_columns": []
+  }
+}

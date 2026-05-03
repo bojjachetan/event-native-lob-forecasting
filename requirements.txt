@@ -1,0 +1,10 @@
+numpy
+pandas
+scipy
+pyarrow
+numba
+PyYAML
+torch
+torch-geometric
+matplotlib
+pytest
