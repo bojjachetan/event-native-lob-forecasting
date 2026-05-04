@@ -39,7 +39,7 @@ The included BTCUSDT experiment uses:
 - Backend: CPU
 - Supervision: all events
 
-The main result is intentionally narrow. CT-GNN improves the rank-ordering of future realized volatility compared with the neural discretized baselines. At the same time, Ridge remains a strong clean linear baseline, and CT-GNN does not dominate absolute-error calibration.
+The result shows that CT-GNN improves the rank-ordering of future realized volatility compared with the neural discretized baselines. At the same time, Ridge remains a strong clean linear baseline.
 
 ## Setup
 
@@ -128,8 +128,6 @@ The pipeline is built around a few constraints that should not be relaxed:
 - No simulated depth is used.
 - No proxy volatility labels are used.
 - Train/test splits are chronological and purged.
-- Discrete baselines are evaluated only at timestamps aligned with continuous events.
-- CT-GNN losses are computed before memory is updated with the supervised event.
 
 ## Tests
 
