@@ -2,8 +2,6 @@
 """
 build_discrete_snapshots.py
 
-Phase 4, Step 2: Baseline Data Adapters.
-
 Converts continuous-event datasets:
   - events.parquet
   - targets.parquet

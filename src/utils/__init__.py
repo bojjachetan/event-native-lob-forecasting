@@ -1,1 +1,1 @@
-"""Shared utilities for configuration, logging, and reproducibility."""
+"""Shared utilities for configuration, logging and reproducibility."""

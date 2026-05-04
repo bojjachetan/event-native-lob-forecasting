@@ -1,1 +1,1 @@
-"""Analysis, audit, and paper-output utilities."""
+"""Analysis utilities for paper outputs."""

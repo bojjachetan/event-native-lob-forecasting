@@ -35,7 +35,3 @@ Primary event-modeling metrics:
 - event NLL
 - event-type accuracy
 - location accuracy
-
-## Intended Use
-
-This codebase is intended for research experiments on short-horizon microstructure forecasting under strict temporal evaluation. It is not production trading infrastructure.

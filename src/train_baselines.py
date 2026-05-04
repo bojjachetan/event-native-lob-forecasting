@@ -2,8 +2,6 @@
 """
 train_baselines.py
 
-Phase 4, Step 3: Baseline Execution.
-
 Dedicated training and evaluation runner for the discrete-time competitor models:
   - DeepLOBBaseline
   - StaticGCNBaseline
